@@ -190,6 +190,29 @@ const title = "Dehua Porcelain Sourcing | Custom White Ceramic Supplier";
       <script>
         const form = document.getElementById('inquiryForm');
         const whatsappNumber = "8613800138000";
+
+        // 原生校验气泡会跟随访客系统语言（可能是中文/德文），这里统一固定为英文
+        const fieldMessages = {
+          name: 'Please enter your name.',
+          email: 'Please enter your email address.',
+          message: 'Please describe your project briefly.'
+        };
+        form.querySelectorAll('input, textarea, select').forEach((field) => {
+          field.addEventListener('invalid', () => {
+            if (field.validity.valueMissing) {
+              field.setCustomValidity(fieldMessages[field.name] || 'Please fill in this field.');
+            } else if (field.type === 'email' && (field.validity.typeMismatch || field.validity.patternMismatch)) {
+              field.setCustomValidity('Please enter a valid email address, e.g. name@company.com.');
+            } else {
+              field.setCustomValidity('Please check this field and try again.');
+            }
+          });
+          field.addEventListener('input', () => field.setCustomValidity(''));
+          field.addEventListener('change', () => field.setCustomValidity(''));
+        });
+        form.addEventListener('reset', () => {
+          form.querySelectorAll('input, textarea, select').forEach((f) => f.setCustomValidity(''));
+        });
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
           const formData = new FormData(form);
