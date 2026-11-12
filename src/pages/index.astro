@@ -152,7 +152,7 @@ const title = "Dehua Porcelain Sourcing | Custom White Ceramic Supplier";
     <div style="background: var(--white); padding: 2rem;">
       <h3 style="font-size:1.4rem; margin-bottom:1.2rem;">Share Your Ceramic Project</h3>
       <form id="inquiryForm" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="subject" value="New Ceramic Inquiry">
+        <input type="hidden" name="subject" value="New inquiry — dehuasourcing.com">
         <div style="margin-bottom:1rem;">
           <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem;">Name</label>
           <input type="text" name="name" required style="width:100%; padding:0.75rem; border:1px solid var(--border-color); background:#fff;">
@@ -186,14 +186,16 @@ const title = "Dehua Porcelain Sourcing | Custom White Ceramic Supplier";
         </div>
         <button type="submit" style="width:100%; padding:0.9rem; background:var(--brown-dark); color:#fff; border:none; font-weight:500; cursor:pointer;">Submit Inquiry</button>
         <p id="inquiryStatus" role="status" aria-live="polite" style="margin:0.9rem 0 0 0; font-size:0.9rem; line-height:1.5; color:var(--brown-dark);"></p>
+        <p style="margin:0.6rem 0 0 0; font-size:0.85rem; color:#7a6a58;">Prefer email? Write to <a href="mailto:hello@dehuasourcing.com" style="color:var(--brown-dark);">hello@dehuasourcing.com</a>.</p>
       </form>
       <script>
         const form = document.getElementById('inquiryForm');
 
-        // ↓↓↓ 这两项需要你填真实值 ↓↓↓
-        const WHATSAPP_NUMBER = "8613800138000"; // 你的真实号码：国家码 + 号码，不要 + 号、空格、横杠
-        const WEB3FORMS_ACCESS_KEY = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY"; // web3forms.com 发到你邮箱的 key
+        // WhatsApp 号未就绪时留空字符串，表单只走邮件；拿到号后填国家码+号码，如 "8613812345678"
+        const WHATSAPP_NUMBER = "";
+        const WEB3FORMS_ACCESS_KEY = "55cdca83-883f-409c-b15a-64f798369b45";
         const KEY_PLACEHOLDER = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY";
+        const FALLBACK_EMAIL = "hello@dehuasourcing.com";
 
         // 原生校验气泡会跟随访客系统语言（可能是中文/德文），这里统一固定为英文
         const fieldMessages = {
@@ -239,19 +241,21 @@ Timeline: ${fields.timeline}
 Source: ${fields.source}
 Message: ${fields.message}`;
 
-          // 1) 先同步打开 WhatsApp。必须留在点击手势里，否则 await 之后会被浏览器当弹窗拦截
-          const waWindow = window.open(
-            `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
-            '_blank'
-          );
-          const waHint = waWindow
-            ? 'A WhatsApp chat was opened in a new tab.'
-            : 'Please open WhatsApp manually and send your message.';
+          // 1) 只有拿到真实 WhatsApp 号时才同步打开新标签（必须留在点击手势里，否则会被浏览器当弹窗拦截）
+          let waHint = '';
+          if (WHATSAPP_NUMBER) {
+            const waWindow = window.open(
+              `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
+              '_blank'
+            );
+            waHint = waWindow
+              ? ' A WhatsApp chat was opened in a new tab.'
+              : ' Please open WhatsApp manually and send your message.';
+          }
 
           // 2) 同时后台发邮件，不阻塞 WhatsApp
           if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === KEY_PLACEHOLDER) {
-            setStatus(waHint);
-            form.reset();
+            setStatus(waHint || `Email is not configured yet. Please write to ${FALLBACK_EMAIL}.`);
             return;
           }
 
@@ -259,8 +263,8 @@ Message: ${fields.message}`;
 
           const body = new FormData();
           body.append('access_key', WEB3FORMS_ACCESS_KEY);
-          body.append('subject', 'New Ceramic Inquiry');
-          body.append('from_name', 'Dehua Sourcing Website');
+          body.append('subject', 'New inquiry — dehuasourcing.com');
+          body.append('from_name', 'Dehua Sourcing');
           body.append('replyto', fields.email);
           body.append('name', fields.name);
           body.append('email', fields.email);
@@ -276,16 +280,15 @@ Message: ${fields.message}`;
             .then((res) => res.json())
             .then((res) => {
               if (res && res.success) {
-                setStatus(`Inquiry sent by email. ${waHint}`);
+                setStatus(`Inquiry sent by email.${waHint}`);
+                form.reset();
               } else {
-                setStatus(`Email delivery failed. ${waHint}`);
+                setStatus(`We could not send your inquiry. Please email ${FALLBACK_EMAIL} directly.`);
               }
             })
             .catch(() => {
-              setStatus(`Email delivery failed. ${waHint}`);
+              setStatus(`We could not send your inquiry. Please email ${FALLBACK_EMAIL} directly.`);
             });
-
-          form.reset();
         });
       </script>
     </div>
