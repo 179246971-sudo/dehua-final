@@ -31,6 +31,7 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
 
     <section style="margin-bottom:2.5rem;">
       <h2 style="font-size:1.4rem; color:var(--brown-dark); margin-bottom:1rem;">Plans &amp; Pricing</h2>
+      <p style="margin:0 0 1rem 0; color:#444;">Not sure which tier? Basic fits market exploration. Choose Standard or Premium if you already have drawings and plan to sample or work long‑term.</p>
       <div class="plan-scroll-wrap">
         <div class="plan-scroll">
           <table class="plan-table" style="width:100%; border-collapse:collapse; min-width:640px;">
@@ -78,15 +79,8 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
       <p class="swipe-hint">Swipe sideways to see all columns →</p>
     </section>
 
-    <div style="background:#f8f5f0; padding:1.2rem; margin-bottom:2.5rem;">
-      <h3 style="margin:0 0 0.6rem 0; font-size:1.1rem;">Important Notes</h3>
-      <ul style="margin:0; padding-left:1.4rem; line-height:1.7;">
-        <li><strong>Service boundary:</strong> Service concludes upon delivery of supplier profiles. Sampling coordination, mold opening, mass‑order follow‑up, inspection, shipment arrangement, production guarantee and quality / lead‑time commitments are not included. These can be purchased separately via Sampling Service or Order Follow‑up Service.</li>
-        <li>RFQ results are preliminary quotations only, not formal PI pricing. Final pricing is subject to factory official quotation after sample confirmation.</li>
-        <li>Listed pricing applies to one single product line. Separate quotation required for multi‑category, cross‑region or highly‑special craftsmanship projects.</li>
-        <li>Recommendation: Choose Basic for general market exploration. If you have clear drawings and plan for sampling / long‑term cooperation, Standard or Premium is preferred. Mold ownership, mold revision and glaze‑related risk points are only covered starting from Standard tier.</li>
-        <li>All plans are one‑time service fees completely separate from goods payment. We do not collect or hold factory payments on your behalf.</li>
-      </ul>
+    <div style="background:#f8f5f0; padding:1.2rem; margin-bottom:2rem;">
+      <p style="margin:0; line-height:1.65;"><strong>Scope ends at supplier profiles.</strong> Sampling, mold opening, mass‑order follow‑up, inspection and shipment are not included. These are available separately through our Sampling Service and Order Follow‑up Service.</p>
     </div>
 
     <div style="background:#f8f5f0; padding:1.4rem; text-align:center;">
@@ -94,6 +88,15 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
       <p style="margin-bottom:1rem;">Submit your project requirements and we will assess your best‑fit solution.</p>
       <a href="/#faq" style="display:inline-block; padding:0.8rem 1.6rem; background:var(--brown-dark); color:white; text-decoration:none;">Go to Project Inquiry Form</a>
     </div>
+
+    <details style="margin-top:1.5rem; background:#f8f5f0; padding:1.2rem;">
+      <summary style="cursor:pointer; font-weight:700; color:var(--brown-dark);">Quotation &amp; payment details</summary>
+      <ul style="margin:0.8rem 0 0 0; padding-left:1.4rem; line-height:1.7; font-size:0.92rem;">
+        <li>RFQ results are preliminary quotations only. Final pricing follows the factory&#39;s official quotation after sample confirmation.</li>
+        <li>Listed pricing covers one single product line. Multi‑category, cross‑region or special‑craft projects require a separate quotation.</li>
+        <li>Service fees are one‑time and fully separate from goods payment. We do not collect or hold factory payments on your behalf.</li>
+      </ul>
+    </details>
   </div>
 </div>
 
