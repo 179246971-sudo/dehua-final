@@ -1,0 +1,1266 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Sourcing Guidebook | Dehua White Porcelain Sourcing Handbook";
+const description = "A 56-page sourcing handbook for overseas buyers of custom Dehua white porcelain: mould ownership, quotation breakdown, defect grading, production checkpoints and 16 ready-to-use forms.";
+
+// 结账链接就位后只改这一行：填上 PayPal 发票 / Fiverr GIG / 独立站结账地址，全页按钮自动切换
+const CHECKOUT_URL = "";
+
+// 暂未接通结账时，按钮统一指向站内询盘表单
+const ctaHref = CHECKOUT_URL || "/#faq";
+const ctaLabel = CHECKOUT_URL ? "Get the handbook — $49.99" : "Request the launch link";
+
+const coverImage = "/images/guidebook/finished-pieces.jpg";
+const photos = [
+  { src: "/images/guidebook/master-model.jpg", caption: "Master model printed from the 3D file" },
+  { src: "/images/guidebook/working-moulds.jpg", caption: "Plaster working moulds, numbered by hand" },
+  { src: "/images/guidebook/slip-casting.jpg", caption: "Slip poured into the working moulds" },
+  { src: "/images/guidebook/trimming.jpg", caption: "Trimming and assembly before firing" },
+  { src: "/images/guidebook/glazing.jpg", caption: "Glaze sprayed at the booth" },
+  { src: "/images/guidebook/kiln.jpg", caption: "Firing, where most variation appears" },
+];
+
+const parts = [
+  {
+    label: "Part 1 — Foundations",
+    summary: "What Dehua actually is, and what the white body can and cannot do.",
+    points: [
+      "Ivory white, high white and ordinary white; glossy, matte and satin — and why a matte workshop is not automatically a glossy workshop.",
+      "The seven steps from file to fired piece, so you can see where the money and the days go.",
+      "Natural tolerance: 10–15% firing shrinkage, batch-to-batch colour shift, pinholes. Normal variation, not defects.",
+      "Stock item, modification or a brand-new mould — and which workshop type each one needs.",
+    ],
+  },
+  {
+    label: "Part 2 — Supplier evaluation",
+    summary: "Telling a prototype studio from a volume factory, before you send money.",
+    points: [
+      "Three workshop types in Dehua, the order each one is right for, and the honest limit of each.",
+      "An eight-field desk check: main category, in-house equipment, MOQ, mould fee and ownership, lead time, secondary processes, QC standard, invoicing and export paperwork.",
+      "Sample evaluation and the order in which to walk a workshop on video: printing room, mould room, casting, trimming, glaze, kiln, QC.",
+      "Supplier grading and a working pool of two to three alternatives.",
+    ],
+  },
+  {
+    label: "Part 3 — Design and cultural compliance",
+    summary: "The check that has to happen before the mould is cut.",
+    points: [
+      "Region-by-region red lines for the EU, North America, the Middle East and South-East Asia — symbols, religious text, silhouettes and imagery.",
+      "Why text is the highest-risk element, and why machine translation is not a check.",
+      "Silhouette risk: a shape can be read as a symbol before anyone looks at the drawing.",
+      "Copyright and cultural-appropriation exposure, plus a self-check list you can run in ten minutes.",
+    ],
+  },
+  {
+    label: "Part 4 — Fulfilment and quality control",
+    summary: "Seven points to put in writing, four checkpoints, one grading language.",
+    points: [
+      "What goes into the order confirmation: forming method, glaze standard, dimensional tolerance, engraving spec, packing, milestone dates, defect rules.",
+      "Four checkpoints: moulds ready, first article, bisque, glaze-fired batch.",
+      "Defect grading A / B / C and the sampling rules that go with it.",
+      "Dehua-specific risks: shared kilns, glaze batch shift, mould wear, silent subcontracting.",
+    ],
+  },
+  {
+    label: "Part 5 — Counterparty due diligence",
+    summary: "Direct producer, single-process shop, broker, or licensed factory.",
+    points: [
+      "How to tell a trading middleman from the workshop that actually makes the piece.",
+      "Capacity verification: in-house versus subcontracted processes, and who carries the quality.",
+      "Contract and order-document points that hold up in a dispute.",
+      "Money flow: deposit size, balance only after inspection, and the receiving account you must not use.",
+    ],
+  },
+  {
+    label: "Part 6 — Disputes and evidence",
+    summary: "What to keep from day one, and how to escalate without shouting.",
+    points: [
+      "The evidence file to build per order, starting at the first message.",
+      "Three escalation levels: interpretation gap, breach, bad faith.",
+      "Six recurring disputes — colour, grading, delay, mould ownership, subcontracting, transit damage — with the clause each one turns on.",
+      "Which claims are realistically recoverable, and which are not.",
+    ],
+  },
+  {
+    label: "Part 7 — Close-out and long-term suppliers",
+    summary: "Closing an order properly is what makes the second order cheaper.",
+    points: [
+      "Close-out actions: settlement wording, archive, samples, moulds, after-sales window.",
+      "A supplier file that updates after every order.",
+      "A 40 / 25 / 20 / 15 performance scorecard, so the ranking is arithmetic instead of mood.",
+      "Elimination triggers and the replacement pool.",
+    ],
+  },
+  {
+    label: "Final chapter and appendix",
+    summary: "A six-block action checklist, plus the forms themselves.",
+    points: [
+      "Six blocks: preparation, sourcing, sampling, contract and production, inspection and shipping, long-term maintenance.",
+      "Sixteen forms, ready to print or fill in and send to a workshop.",
+      "Every form is cross-referenced to the part of the book that explains it.",
+    ],
+  },
+];
+
+const forms = [
+  "RFQ sheet",
+  "Sample confirmation",
+  "Mould ownership agreement",
+  "Bulk order checklist",
+  "Project brief",
+  "Supplier profile card",
+  "Supplier comparison scorecard",
+  "Mould register",
+  "Production tracker",
+  "Inspection checklist",
+  "Payment log",
+  "Dispute log",
+  "Supplier performance review",
+  "Compliance test tracker",
+  "Packaging confirmation",
+  "Dispute scripts",
+];
+
+const faqs = [
+  {
+    q: "What exactly do I receive?",
+    a: "A PDF handbook in English, laid out for A4, plus the sixteen forms as separate files so you can print them or fill them in and send them to a workshop.",
+  },
+  {
+    q: "Does it include factory contacts or a supplier list?",
+    a: "No. This is the rulebook, not a vendor list. Matched workshops are what the service tiers deliver — which is also why the handbook can be sold to anyone without giving away your suppliers.",
+  },
+  {
+    q: "Is it useful if I already work with a Dehua factory?",
+    a: "That is the usual case. It is written for the buyer who already has a quotation in hand and cannot tell what is inside the number, or who has a sample that does not match the next batch.",
+  },
+  {
+    q: "My product is not ceramics. Does it still apply?",
+    a: "The mould, sampling, tolerance, grading and dispute parts are specific to slip-cast and fired porcelain. The commercial parts — quotation structure, evidence files, supplier grading — travel further.",
+  },
+  {
+    q: "How is this different from hiring you?",
+    a: "The handbook teaches the rules. The service tiers apply them to your project: we shortlist, check the numbers, visit the workshop and put our name on the recommendation.",
+  },
+  {
+    q: "Refunds and updates?",
+    a: "Fourteen days, full refund, no questions. Updates to the English edition are free for the first twelve months.",
+  },
+];
+---
+<BaseLayout title={title} description={description}>
+  <Fragment slot="header">
+    <Header />
+  </Fragment>
+
+  <div class="container page-guidebook" style="padding:2rem 1rem;">
+
+    <!-- 预售提示条：结账接通后删掉这一段 -->
+    <div class="prelaunch">
+      <span class="dot"></span>
+      <span><strong>Pre-launch.</strong> The English edition is in final proofing. Request the launch link and you will receive it before the public listing.</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Sourcing Guidebook</p>
+        <h1>The Dehua White Porcelain Sourcing Handbook</h1>
+        <p class="lede">
+          Everything a small overseas buyer needs to quote, sample, inspect and ship custom white porcelain from Dehua —
+          written on the ground, in plain English, with the forms already made.
+        </p>
+        <p class="lede-sub">
+          Not a factory list. The rules the workshops here actually work by, written down so you can hold a quotation,
+          a sample or a finished batch against something objective.
+        </p>
+        <div class="chips">
+          <span class="chip">56 pages</span>
+          <span class="chip">7 parts</span>
+          <span class="chip">16 forms</span>
+          <span class="chip">English edition</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn-primary" href={ctaHref}>{ctaLabel}</a>
+          <a class="btn-ghost" href="#sample">Read a free section</a>
+        </div>
+        <p class="price-line"><strong>$49.99</strong> one-time · PDF, A4 print-ready · updates free for 12 months</p>
+      </div>
+
+      <div class="hero-visual">
+        <div class="book-cover">
+          <p class="cover-series">Dehua · Sourcing Series</p>
+          <h2 class="cover-title">The Dehua White Porcelain Sourcing Handbook</h2>
+          <div class="cover-rule"></div>
+          <p class="cover-meta">Seven parts · sixteen forms<br />English edition · PDF</p>
+          <p class="cover-price">$49.99</p>
+        </div>
+        <img class="cover-photo" src={coverImage} alt="Finished matte-glaze white porcelain pieces" />
+      </div>
+    </section>
+
+    <!-- FOR / NOT FOR -->
+    <section class="block" id="who">
+      <div class="for-grid">
+        <div class="for-card">
+          <h2>Who this is for</h2>
+          <ul>
+            <li>Etsy and independent-store sellers developing incense bowls, candle holders, tea ware or memorial pieces.</li>
+            <li>Designers and small brands that need a prototype and a small batch before committing to tooling.</li>
+            <li>First-time buyers of the Dehua supply chain who do not know which workshop type fits their order.</li>
+            <li>Buyers already sourcing who have had a sample mismatch, a mould dispute or a batch that failed for no stated reason.</li>
+          </ul>
+        </div>
+        <div class="notfor-card">
+          <h2>Who it is not for</h2>
+          <ul>
+            <li>Dropshippers looking for ready stock shipped in three days.</li>
+            <li>Buyers who want a factory contact list — the handbook deliberately contains none.</li>
+            <li>Orders already in production and already in dispute. That needs a person on the ground, not a book.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- THREE THINGS -->
+    <section class="block">
+      <h2 class="block-title">The three things buyers lose money on</h2>
+      <p class="block-sub">These are the chapters most buyers read twice. Each one is cheaper than the mistake it prevents.</p>
+
+      <div class="loss-grid">
+        <article class="loss-card">
+          <h3>Who owns the mould you paid for</h3>
+          <img src="/images/guidebook/mould-chain.jpg" alt="Master model, working moulds and a cast piece" />
+          <p>
+            A paid mould is not automatically yours. The handbook separates the master model from the plaster working
+            mould, explains why a plaster mould is a consumable with a finite cycle count, and gives you the clause
+            to sign before the mould fee leaves your account.
+          </p>
+        </article>
+
+        <article class="loss-card">
+          <h3>What is missing from the quotation</h3>
+          <p>
+            Most local quotations arrive as one bundled number. The handbook gives you the breakdown order — one-time
+            tooling, per-piece body, glaze, firing, surface work, packing — and the four extras that reappear on
+            almost every quote in this county.
+          </p>
+          <p class="card-note">Part 2.5 is reproduced in full below.</p>
+          <a class="card-link" href="#sample">Read it free</a>
+        </article>
+
+        <article class="loss-card">
+          <h3>Who decides what counts as a defect</h3>
+          <img src="/images/guidebook/defect-grading.jpg" alt="Three porcelain cups graded A, B and C" />
+          <p>
+            Without a written grading standard, "handmade, small defects are normal" answers every complaint.
+            A / B / C grading and the sampling rules settle it before the deposit, not after the container.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PHOTOS -->
+    <section class="block">
+      <h2 class="block-title">The seven steps, in the order they actually happen</h2>
+      <p class="block-sub">Part 1 walks the whole chain — because the step a defect was born in decides who pays for it.</p>
+      <div class="photo-grid">
+        {photos.map((p) => (
+          <figure class="photo-card">
+            <img src={p.src} alt={p.caption} />
+            <figcaption>{p.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <!-- INSIDE -->
+    <section class="block" id="inside">
+      <h2 class="block-title">What is inside</h2>
+      <p class="block-sub">Seven parts, a final action chapter, and an appendix of forms. Open any part to see what it covers.</p>
+      <div class="inside-list">
+        {parts.map((part, i) => (
+          <details class="inside-item" open={i === 1}>
+            <summary>
+              <span class="inside-label">{part.label}</span>
+              <span class="inside-summary">{part.summary}</span>
+            </summary>
+            <ul class="inside-points">
+              {part.points.map((point) => <li>{point}</li>)}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- SAMPLE -->
+    <section class="block" id="sample">
+      <h2 class="block-title">Two pages, in full</h2>
+      <p class="block-sub">
+        No email required. Part 2.5 and Part 4.3 are reproduced below exactly as they appear in the book — the two
+        chapters that most often change a buyer's next decision.
+      </p>
+
+      <div class="sheet-grid">
+        <article class="page-sheet">
+          <p class="sheet-runner">Part 2.5</p>
+          <h3>Reading a quotation</h3>
+          <p class="sheet-standfirst">A usable quotation itemises. A bundled number does not.</p>
+          <p class="sheet-body">A quotation you can compare, line by line, separates:</p>
+          <ul class="sheet-list">
+            <li><strong>One-time tooling</strong> — modelling, master model printing, plaster working moulds.</li>
+            <li><strong>Per piece</strong> — body, glaze, firing.</li>
+            <li><strong>Surface work</strong> — laser engraving, decal, gilding, sanding.</li>
+            <li><strong>Freight and packing</strong> — sample freight, bulk packing, tax or export paperwork.</li>
+          </ul>
+          <p class="sheet-body">
+            Most workshops here quote one bundled figure. The minimum you should insist on is one-time tooling
+            separated from per-piece cost.
+          </p>
+          <p class="sheet-body">Four extras that reappear on almost every quotation:</p>
+          <ol class="sheet-list">
+            <li><strong>Body only.</strong> Glaze and firing invoiced separately.</li>
+            <li><strong>Plaster mould wear.</strong> Each working mould has a finite cycle count; re-moulding is a new charge, and it is cheaper than a new master model but not free.</li>
+            <li><strong>Revisions.</strong> Free rounds are usually limited. The limit and the price of an extra round belong in the quote, not in a later message.</li>
+            <li><strong>Packing upgrades.</strong> Inner tray, printed box, label — priced per unit, and easy to forget.</li>
+          </ol>
+          <p class="sheet-foot">
+            Put three things in writing: how long the price holds, which processes are inside it, which are extra.
+            A number without that sentence is not a quotation.
+          </p>
+          <p class="sheet-number">Sourcing Handbook · p.15</p>
+        </article>
+
+        <article class="page-sheet">
+          <p class="sheet-runner">Part 4.3</p>
+          <h3>Grading a finished batch</h3>
+          <p class="sheet-standfirst">Three grades, agreed before the deposit.</p>
+          <p class="sheet-body"><strong>A — accept.</strong> Rests flat without wobble. Glaze clean at arm's length. Engraved lines continuous, no chipped edges. No crack, visible or hairline. Dimensions inside the agreed tolerance.</p>
+          <p class="sheet-body"><strong>B — negotiate.</strong> Light colour variation, scattered pinholes or glaze bubbles, a slight wobble without toppling, a small loss of engraved detail. B grade is not automatically free: discount, rework, or replacement of the same quantity in A grade. Choose which one in the order, not after delivery.</p>
+          <p class="sheet-body"><strong>C — reject.</strong> Visible or hairline cracks, warp, unstable centre of gravity, large bare patches, chipped corners, or a pattern materially different from the approved sample.</p>
+          <p class="sheet-body"><strong>Sampling.</strong> Under 50 pieces — inspect all. 50 to 200 — 20%, minimum 10 pieces. Over 200 — 10%, minimum 40 pieces. If the defect rate exceeds the agreed limit, widen the sample or inspect everything before paying the balance.</p>
+          <p class="sheet-foot">
+            Part 4 also covers the four production checkpoints, and the risks specific to this county: shared kilns,
+            glaze batch shift, mould wear, and subcontracting that is never mentioned until something fails.
+          </p>
+          <p class="sheet-number">Sourcing Handbook · p.24</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FORMS -->
+    <section class="block" id="forms">
+      <h2 class="block-title">Sixteen forms, already written</h2>
+      <p class="block-sub">
+        The appendix is a working file, not an illustration. Print them, or fill them in and send them to a workshop
+        as a PDF. Three of them prevent most of the disputes in this business.
+      </p>
+      <div class="form-tags">
+        {forms.map((form) => <span class="form-tag">{form}</span>)}
+      </div>
+      <div class="form-highlight">
+        <p><strong>The three that matter first:</strong> the sample confirmation sheet, the mould ownership agreement,
+        and the inspection checklist. Everything else supports them.</p>
+      </div>
+    </section>
+
+    <!-- PRICE MATH -->
+    <section class="block" id="value">
+      <h2 class="block-title">What one wrong assumption costs</h2>
+      <div class="math-list">
+        <div class="math-item">
+          <span class="math-num">01</span>
+          <p><strong>Re-opening a master model after you approved the sample.</strong> Tooling paid twice, and the timeline starts again from the print queue.</p>
+        </div>
+        <div class="math-item">
+          <span class="math-num">02</span>
+          <p><strong>A batch that fails the bar you agreed.</strong> Rework, replacement or a discount — plus the shipping window you lose while it is decided.</p>
+        </div>
+        <div class="math-item">
+          <span class="math-num">03</span>
+          <p><strong>A mould you paid for and cannot take with you.</strong> The second order starts from zero, at a price you no longer control.</p>
+        </div>
+      </div>
+      <p class="math-note">
+        No cost ranges are printed on this page. The numbers belong in your factory's quotation, not in a website.
+        The handbook's job is to make sure you can read the one you were sent.
+      </p>
+    </section>
+
+    <!-- TIERS -->
+    <section class="block" id="tiers">
+      <h2 class="block-title">How it sits next to the service tiers</h2>
+      <p class="block-sub">
+        The handbook teaches the rules. The tiers apply them to your project, with someone standing in the workshop.
+      </p>
+      <div class="tier-grid">
+        <a class="tier-card tier-card-book" href="#get">
+          <p class="tier-name">Handbook</p>
+          <p class="tier-price">$49.99</p>
+          <p class="tier-text">The rules and the forms. You run the project yourself.</p>
+        </a>
+        <a class="tier-card" href="/supplier-development">
+          <p class="tier-name">Basic</p>
+          <p class="tier-price">$75</p>
+          <p class="tier-text">Three matched workshops, with type and contact details.</p>
+        </a>
+        <a class="tier-card" href="/supplier-development">
+          <p class="tier-name">Standard</p>
+          <p class="tier-price">$145</p>
+          <p class="tier-text">The numbers checked: hidden costs, qualification, preliminary risk notes.</p>
+        </a>
+        <a class="tier-card" href="/supplier-development">
+          <p class="tier-name">Premium</p>
+          <p class="tier-price">$220</p>
+          <p class="tier-text">On-site assessment of up to two factories, with an eight-page report.</p>
+        </a>
+      </div>
+      <div class="credit-note">
+        <p><strong>Launch offer.</strong> Buy the handbook, then upgrade to any service tier within 30 days — the
+        $49.99 is credited against the service fee.</p>
+      </div>
+    </section>
+
+    <!-- AUTHOR -->
+    <section class="block" id="author">
+      <div class="author-grid">
+        <div>
+          <h2 class="block-title">Written in Dehua, not about Dehua</h2>
+          <p class="block-sub" style="margin-bottom:1rem;">
+            Every rule in this book came out of a workshop on this street — not out of a template, and not out of a
+            trade article.
+          </p>
+          <p class="author-body">
+            The author lives and works in Dehua, sourcing and developing white porcelain for overseas small buyers
+            across 3D modelling, mould making, prototype development, small-batch trial production and bulk orders.
+            That includes the parts nobody writes about: which plaster mould is yours after you pay for it, how a
+            shared kiln decides your delivery date, and what a matte glaze does to a batch of thin-walled bowls.
+          </p>
+          <p class="author-body">
+            The handbook is the accumulated version of that. It is also the reason the service tiers can be priced
+            the way they are: the knowledge is already written down, so the paid work stays on your order.
+          </p>
+        </div>
+        <div class="author-side">
+          <p class="author-side-label">Also covered</p>
+          <ul>
+            <li>EU, North America, Middle East compliance red lines for incense and candle ware</li>
+            <li>Shared kilns, glaze batch shift and mould cycle limits</li>
+            <li>Brokers versus direct producers, and the questions that separate them</li>
+            <li>Deposit and balance structure, and the receiving account to avoid</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="block" id="faq">
+      <h2 class="block-title">Questions buyers ask before paying</h2>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta" id="get">
+      <p class="eyebrow" style="color:#f2e9df;">Sourcing Guidebook</p>
+      <h2>The rules, in one file</h2>
+      <p class="final-sub">
+        56 pages, 16 forms, and the two chapters that most often change a buyer's next decision.
+        One payment, no subscription.
+      </p>
+      <p class="final-price">$49.99</p>
+      <a class="btn-light" href={ctaHref}>{ctaLabel}</a>
+      <p class="final-note">
+        Checkout is being connected. Until it is live, the request above reaches us directly and we reply within one
+        working day with the launch link.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- 手机端吸底购买条 -->
+  <div class="sticky-buy">
+    <div class="sticky-price"><strong>$49.99</strong><span>56 pages · 16 forms</span></div>
+    <a class="btn-primary sticky-btn" href={ctaHref}>{ctaLabel}</a>
+  </div>
+
+  <Fragment slot="footer">
+    <Footer />
+  </Fragment>
+</BaseLayout>
+
+<style>
+  .page-guidebook {
+    --ink: #5c4838;
+    --paper: #ffffff;
+    --tint: #f8f5f0;
+    --line: #d6cdc4;
+  }
+
+  .prelaunch {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: #fdfaf5;
+    border: 1px solid var(--line);
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .prelaunch .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #b84c3a;
+    margin-top: 0.45rem;
+    flex: 0 0 auto;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: var(--paper);
+    padding: 2.4rem 2rem;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.6rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #8a7462;
+  }
+
+  .hero h1 {
+    font-size: 2.1rem;
+    line-height: 1.24;
+    margin: 0 0 1rem 0;
+    color: var(--ink);
+  }
+
+  .lede {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    margin: 0 0 0.8rem 0;
+    color: #46403a;
+  }
+
+  .lede-sub {
+    font-size: 0.94rem;
+    line-height: 1.7;
+    margin: 0 0 1.2rem 0;
+    color: #6b5d50;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .chip {
+    font-size: 0.78rem;
+    padding: 0.28rem 0.6rem;
+    border: 1px solid var(--line);
+    background: var(--tint);
+    color: #5c4838;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    align-items: center;
+    margin-bottom: 0.9rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    background: var(--ink);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border: 1px solid var(--ink);
+  }
+
+  .btn-ghost {
+    display: inline-block;
+    padding: 0.85rem 1.4rem;
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border: 1px solid var(--line);
+  }
+
+  .price-line {
+    font-size: 0.86rem;
+    color: #7a6a5c;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .hero-visual {
+    position: relative;
+  }
+
+  .book-cover {
+    background: linear-gradient(160deg, #6b5342 0%, #5c4838 100%);
+    color: #f7f1e9;
+    padding: 2.2rem 1.8rem;
+    box-shadow: 0 18px 38px rgba(60, 42, 28, 0.28);
+    position: relative;
+    z-index: 2;
+  }
+
+  .cover-series {
+    margin: 0 0 2.2rem 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #d8c7b4;
+  }
+
+  .cover-title {
+    font-size: 1.35rem;
+    line-height: 1.35;
+    margin: 0 0 1.2rem 0;
+    font-weight: 600;
+  }
+
+  .cover-rule {
+    width: 42px;
+    height: 2px;
+    background: #c9b59c;
+    margin-bottom: 1.2rem;
+  }
+
+  .cover-meta {
+    margin: 0 0 2rem 0;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #d8c7b4;
+  }
+
+  .cover-price {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .cover-photo {
+    width: 78%;
+    display: block;
+    margin: -2.2rem 0 0 auto;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 12px 26px rgba(60, 42, 28, 0.18);
+  }
+
+  /* ---------- 通用块 ---------- */
+  .block {
+    background: var(--paper);
+    padding: 2.2rem 2rem;
+    margin-top: 1rem;
+  }
+
+  .block-title {
+    font-size: 1.45rem;
+    margin: 0 0 0.7rem 0;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  .block-sub {
+    margin: 0 0 1.6rem 0;
+    color: #6b5d50;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+
+  /* ---------- FOR / NOT ---------- */
+  .for-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .for-card,
+  .notfor-card {
+    padding: 1.4rem 1.5rem;
+  }
+
+  .for-card {
+    background: var(--tint);
+  }
+
+  .notfor-card {
+    background: #ffffff;
+    border: 1px solid var(--line);
+  }
+
+  .for-card h2,
+  .notfor-card h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.8rem 0;
+    color: var(--ink);
+  }
+
+  .for-card ul,
+  .notfor-card ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    line-height: 1.72;
+    font-size: 0.93rem;
+  }
+
+  .for-card li,
+  .notfor-card li {
+    margin-bottom: 0.45rem;
+  }
+
+  /* ---------- 三个亏钱点 ---------- */
+  .loss-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  .loss-card {
+    border-top: 2px solid var(--ink);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .loss-card h3 {
+    font-size: 1.02rem;
+    margin: 0 0 0.8rem 0;
+    line-height: 1.4;
+  }
+
+  .loss-card img {
+    width: 100%;
+    display: block;
+    margin-bottom: 0.9rem;
+    background: var(--tint);
+  }
+
+  .loss-card p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 0 0 0.7rem 0;
+    color: #4b4239;
+  }
+
+  .card-note {
+    color: #8a7462 !important;
+    font-style: italic;
+  }
+
+  .card-link {
+    margin-top: auto;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: underline;
+  }
+
+  /* ---------- 工艺图 ---------- */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+  }
+
+  .photo-card {
+    margin: 0;
+  }
+
+  .photo-card img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--tint);
+  }
+
+  .photo-card figcaption {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #7a6a5c;
+    padding-top: 0.45rem;
+  }
+
+  /* ---------- 目录手风琴 ---------- */
+  .inside-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .inside-item {
+    border-bottom: 1px solid var(--line);
+    padding: 0.9rem 0;
+  }
+
+  .inside-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .inside-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .inside-label {
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--ink);
+  }
+
+  .inside-summary {
+    font-size: 0.9rem;
+    color: #6b5d50;
+  }
+
+  .inside-points {
+    margin: 0.8rem 0 0.2rem 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    line-height: 1.72;
+  }
+
+  .inside-points li {
+    margin-bottom: 0.4rem;
+  }
+
+  /* ---------- 样张 ---------- */
+  .sheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .page-sheet {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--ink);
+    padding: 1.6rem 1.5rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(92, 72, 56, 0.07);
+  }
+
+  .sheet-runner {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a7462;
+  }
+
+  .page-sheet h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.12rem;
+    color: var(--ink);
+  }
+
+  .sheet-standfirst {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #6b5d50;
+  }
+
+  .sheet-body {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.88rem;
+    line-height: 1.75;
+  }
+
+  .sheet-list {
+    margin: 0 0 0.8rem 0;
+    padding-left: 1.1rem;
+    font-size: 0.88rem;
+    line-height: 1.72;
+  }
+
+  .sheet-list li {
+    margin-bottom: 0.32rem;
+  }
+
+  .sheet-foot {
+    margin: 1rem 0 0 0;
+    padding-top: 0.8rem;
+    border-top: 1px solid #eae2d8;
+    font-size: 0.84rem;
+    line-height: 1.7;
+    color: #6b5d50;
+  }
+
+  .sheet-number {
+    margin: 1rem 0 0 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a2948a;
+  }
+
+  /* ---------- 表单 ---------- */
+  .form-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .form-tag {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.7rem;
+    background: var(--tint);
+    border: 1px solid var(--line);
+  }
+
+  .form-highlight {
+    background: #fdfaf5;
+    border-left: 3px solid var(--ink);
+    padding: 0.9rem 1rem;
+  }
+
+  .form-highlight p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* ---------- 价格账 ---------- */
+  .math-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .math-item p {
+    margin: 0.4rem 0 0 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .math-num {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #a2948a;
+  }
+
+  .math-note {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #7a6a5c;
+    max-width: 70ch;
+  }
+
+  /* ---------- 档位 ---------- */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+
+  .tier-card {
+    display: block;
+    padding: 1rem;
+    background: var(--tint);
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .tier-card-book {
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .tier-name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .tier-price {
+    margin: 0.25rem 0 0.5rem 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .tier-text {
+    margin: 0;
+    font-size: 0.83rem;
+    line-height: 1.6;
+  }
+
+  .tier-card-book .tier-text {
+    color: #e6d9c9;
+  }
+
+  .credit-note {
+    margin-top: 1.1rem;
+    border: 1px dashed var(--line);
+    padding: 0.9rem 1rem;
+  }
+
+  .credit-note p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* ---------- 作者 ---------- */
+  .author-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+  }
+
+  .author-body {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.93rem;
+    line-height: 1.75;
+  }
+
+  .author-side {
+    background: var(--tint);
+    padding: 1.3rem 1.4rem;
+  }
+
+  .author-side-label {
+    margin: 0 0 0.6rem 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a7462;
+  }
+
+  .author-side ul {
+    margin: 0;
+    padding-left: 1.05rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .author-side li {
+    margin-bottom: 0.45rem;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .faq-item {
+    background: var(--tint);
+    padding: 0.9rem 1.1rem;
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    list-style: none;
+    position: relative;
+    padding-right: 1.4rem;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: "+";
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #8a7462;
+  }
+
+  .faq-item[open] summary::after {
+    content: "–";
+  }
+
+  .faq-item p {
+    margin: 0.65rem 0 0 0;
+    font-size: 0.9rem;
+    line-height: 1.72;
+  }
+
+  /* ---------- 结尾 CTA ---------- */
+  .final-cta {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 2.6rem 2rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  .final-sub {
+    margin: 0 auto 1.1rem;
+    max-width: 46ch;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #e6d9c9;
+  }
+
+  .final-price {
+    margin: 0 0 1.2rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-light {
+    display: inline-block;
+    padding: 0.9rem 1.7rem;
+    background: #f7f1e9;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+  }
+
+  .final-note {
+    margin: 1rem auto 0;
+    max-width: 52ch;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #cdbcaa;
+  }
+
+  /* ---------- 吸底条 ---------- */
+  .sticky-buy {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 1.6rem 1.2rem;
+      gap: 1.8rem;
+    }
+
+    .hero h1 {
+      font-size: 1.55rem;
+    }
+
+    .book-cover {
+      padding: 1.6rem 1.3rem;
+    }
+
+    .cover-title {
+      font-size: 1.1rem;
+    }
+
+    .cover-photo {
+      width: 62%;
+      margin-top: -1.6rem;
+    }
+
+    .block {
+      padding: 1.6rem 1.2rem;
+    }
+
+    .for-grid,
+    .sheet-grid,
+    .author-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .loss-grid,
+    .photo-grid,
+    .math-list {
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    .tier-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .page-sheet {
+      padding: 1.3rem 1.15rem 1rem;
+    }
+
+    .final-cta {
+      padding: 2rem 1.2rem 5.4rem;
+    }
+
+    .sticky-buy {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: #ffffff;
+      border-top: 1px solid var(--line);
+      padding: 0.65rem 1rem;
+      box-shadow: 0 -6px 18px rgba(92, 72, 56, 0.12);
+    }
+
+    .sticky-price {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .sticky-price strong {
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+
+    .sticky-price span {
+      font-size: 0.72rem;
+      color: #8a7462;
+    }
+
+    .sticky-btn {
+      padding: 0.7rem 1rem;
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+  }
+</style>
