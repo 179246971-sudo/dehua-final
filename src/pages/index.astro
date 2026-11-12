@@ -152,7 +152,6 @@ const title = "Dehua Porcelain Sourcing | Custom White Ceramic Supplier";
     <div style="background: var(--white); padding: 2rem;">
       <h3 style="font-size:1.4rem; margin-bottom:1.2rem;">Share Your Ceramic Project</h3>
       <form id="inquiryForm" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="你的web3forms_access_key">
         <input type="hidden" name="subject" value="New Ceramic Inquiry">
         <div style="margin-bottom:1rem;">
           <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem;">Name</label>
@@ -186,10 +185,15 @@ const title = "Dehua Porcelain Sourcing | Custom White Ceramic Supplier";
           <textarea name="message" rows="4" required style="width:100%; padding:0.75rem; border:1px solid var(--border-color); background:#fff;"></textarea>
         </div>
         <button type="submit" style="width:100%; padding:0.9rem; background:var(--brown-dark); color:#fff; border:none; font-weight:500; cursor:pointer;">Submit Inquiry</button>
+        <p id="inquiryStatus" role="status" aria-live="polite" style="margin:0.9rem 0 0 0; font-size:0.9rem; line-height:1.5; color:var(--brown-dark);"></p>
       </form>
       <script>
         const form = document.getElementById('inquiryForm');
-        const whatsappNumber = "8613800138000";
+
+        // ↓↓↓ 这两项需要你填真实值 ↓↓↓
+        const WHATSAPP_NUMBER = "8613800138000"; // 你的真实号码：国家码 + 号码，不要 + 号、空格、横杠
+        const WEB3FORMS_ACCESS_KEY = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY"; // web3forms.com 发到你邮箱的 key
+        const KEY_PLACEHOLDER = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY";
 
         // 原生校验气泡会跟随访客系统语言（可能是中文/德文），这里统一固定为英文
         const fieldMessages = {
@@ -213,23 +217,76 @@ const title = "Dehua Porcelain Sourcing | Custom White Ceramic Supplier";
         form.addEventListener('reset', () => {
           form.querySelectorAll('input, textarea, select').forEach((f) => f.setCustomValidity(''));
         });
-        form.addEventListener('submit', async (e) => {
+        const statusEl = document.getElementById('inquiryStatus');
+        const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+
+        form.addEventListener('submit', (e) => {
           e.preventDefault();
+
           const formData = new FormData(form);
-          await fetch(form.action, {
-            method: form.method,
-            body: formData
-          });
+          const fields = {
+            name: formData.get('name') || '',
+            email: formData.get('email') || '',
+            timeline: formData.get('timeline') || '',
+            source: formData.get('source') || '',
+            message: formData.get('message') || ''
+          };
+
           const text = `New Ceramic Inquiry
-Name: ${formData.get('name')}
-Email: ${formData.get('email')}
-Timeline: ${formData.get('timeline')}
-Source: ${formData.get('source')}
-Message: ${formData.get('message')}`;
-          const encodedText = encodeURIComponent(text);
-          window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, '_blank');
+Name: ${fields.name}
+Email: ${fields.email}
+Timeline: ${fields.timeline}
+Source: ${fields.source}
+Message: ${fields.message}`;
+
+          // 1) 先同步打开 WhatsApp。必须留在点击手势里，否则 await 之后会被浏览器当弹窗拦截
+          const waWindow = window.open(
+            `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
+            '_blank'
+          );
+          const waHint = waWindow
+            ? 'A WhatsApp chat was opened in a new tab.'
+            : 'Please open WhatsApp manually and send your message.';
+
+          // 2) 同时后台发邮件，不阻塞 WhatsApp
+          if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === KEY_PLACEHOLDER) {
+            setStatus(waHint);
+            form.reset();
+            return;
+          }
+
+          setStatus('Sending your inquiry by email…');
+
+          const body = new FormData();
+          body.append('access_key', WEB3FORMS_ACCESS_KEY);
+          body.append('subject', 'New Ceramic Inquiry');
+          body.append('from_name', 'Dehua Sourcing Website');
+          body.append('replyto', fields.email);
+          body.append('name', fields.name);
+          body.append('email', fields.email);
+          body.append('timeline', fields.timeline);
+          body.append('source', fields.source);
+          body.append('message', fields.message);
+
+          fetch(form.action, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              if (res && res.success) {
+                setStatus(`Inquiry sent by email. ${waHint}`);
+              } else {
+                setStatus(`Email delivery failed. ${waHint}`);
+              }
+            })
+            .catch(() => {
+              setStatus(`Email delivery failed. ${waHint}`);
+            });
+
           form.reset();
-        })
+        });
       </script>
     </div>
   </div>
