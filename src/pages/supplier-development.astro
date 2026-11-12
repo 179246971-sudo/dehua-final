@@ -31,8 +31,9 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
 
     <section style="margin-bottom:2.5rem;">
       <h2 style="font-size:1.4rem; color:var(--brown-dark); margin-bottom:1rem;">Plan Comparison</h2>
-      <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; min-width:640px;">
+      <div class="plan-scroll-wrap">
+        <div class="plan-scroll">
+          <table class="plan-table" style="width:100%; border-collapse:collapse; min-width:640px;">
           <thead>
             <tr style="background:#f8f5f0;">
               <th style="border:1px solid var(--border-color); padding:0.8rem; text-align:left;">Plan</th>
@@ -76,7 +77,9 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
+      <p class="swipe-hint">Swipe sideways to see all columns →</p>
       <p style="font-size:0.85rem; color:#444; margin-top:0.6rem;">Note: For Basic / Standard, “Not Included” lists items available only in higher tiers. For Premium, “Not Included” lists items never covered by this service.</p>
     </section>
 
@@ -108,5 +111,76 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
 .page-supplier-dev table td,
 .page-supplier-dev table th {
   font-size:0.92rem;
+}
+
+/* ---------- 移动端优化：首列吸附 + 右侧渐隐 + 价格强调 ---------- */
+
+.plan-scroll-wrap {
+  position: relative;
+}
+
+.plan-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 首列吸附：横滑时始终看得见在比哪个套餐 */
+.plan-table th:first-child,
+.plan-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ffffff;
+  box-shadow: 4px 0 6px -4px rgba(92, 72, 56, 0.35);
+}
+
+.plan-table thead th:first-child {
+  background: #f8f5f0;
+}
+
+/* Standard 那行原本是浅色底，首列跟着一起变，避免滑动时出现色块断层 */
+.plan-table tbody tr:nth-child(2) td:first-child {
+  background: #fdfaf5;
+}
+
+/* 价格列强调：第一眼抓 $75 / $145 / $220 */
+.plan-table td:nth-child(2) {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--brown-dark);
+  white-space: nowrap;
+}
+
+/* 滑动提示：默认隐藏，只在手机上显示 */
+.swipe-hint {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .swipe-hint {
+    display: block;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.8rem;
+    color: #7a6a5c;
+    text-align: right;
+  }
+
+  /* 右侧渐隐，暗示右边还有内容 */
+  .plan-scroll-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 28px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.92));
+  }
+
+  /* 手机上收紧单元格内边距，一屏能看到更多列 */
+  .plan-table th,
+  .plan-table td {
+    padding: 0.55rem !important;
+  }
 }
 </style>
