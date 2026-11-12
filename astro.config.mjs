@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 export default defineConfig({
-  site: "https://xxx.pages.dev", // 先随便写，后面CF给你域名，后续可以换成你自己域名
+  site: "https://dehua-final.pages.dev", // Cloudflare Pages 生产域名，换成自有域名时同步修改此处
   output: 'static'
 });
 
