@@ -30,7 +30,7 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
     </section>
 
     <section style="margin-bottom:2.5rem;">
-      <h2 style="font-size:1.4rem; color:var(--brown-dark); margin-bottom:1rem;">Plan Comparison</h2>
+      <h2 style="font-size:1.4rem; color:var(--brown-dark); margin-bottom:1rem;">Plans &amp; Pricing</h2>
       <div class="plan-scroll-wrap">
         <div class="plan-scroll">
           <table class="plan-table" style="width:100%; border-collapse:collapse; min-width:640px;">
@@ -40,7 +40,6 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
               <th style="border:1px solid var(--border-color); padding:0.8rem; text-align:left;">Price (USD)</th>
               <th style="border:1px solid var(--border-color); padding:0.8rem; text-align:left;">Key Deliverables</th>
               <th style="border:1px solid var(--border-color); padding:0.8rem; text-align:left;">Scope of Work</th>
-              <th style="border:1px solid var(--border-color); padding:0.8rem; text-align:left;">Not Included</th>
               <th style="border:1px solid var(--border-color); padding:0.8rem; text-align:center;">Sample Output</th>
             </tr>
           </thead>
@@ -48,19 +47,17 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
             <tr>
               <td style="border:1px solid var(--border-color); padding:0.8rem;"><strong>Basic</strong></td>
               <td style="border:1px solid var(--border-color); padding:0.8rem;">$75</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">Shortlist of 3 matched workshops; basic RFQ summary; contact info; mark prototype / mass‑production workshop type</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">Source and match candidates; basic inquiry for MOQ, sample cost & lead‑time. You may contact factories directly after delivery.</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">On‑site footage; outsourcing risk assessment; deep mold‑ownership verification; yield evaluation; contract‑term review</td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><ul class="cell-list"><li>Shortlist of 3 matched workshops</li><li>Basic RFQ summary</li><li>Contact info</li><li>Mark prototype / mass‑production workshop type</li></ul></td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><ul class="cell-list"><li>Source and match candidates</li><li>Basic inquiry for MOQ, sample cost & lead‑time.</li><li>You may contact factories directly after delivery.</li></ul></td>
               <td style="border:1px solid var(--border-color); padding:0.8rem; text-align:center;">
                 <a href={pathBasic} style="color:var(--brown-dark); text-decoration:underline;">View Sample ⓘ</a>
               </td>
             </tr>
             <tr style="background:#fdfaf5;">
-              <td style="border:1px solid var(--border-color); padding:0.8rem;"><strong>Standard (Recommended)</strong></td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><strong>Standard</strong></td>
               <td style="border:1px solid var(--border-color); padding:0.8rem;">$145</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">All Basic deliverables + deep RFQ clarification; hidden‑cost breakdown; basic qualification check; preliminary risk notes</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">Clarify hidden costs; evaluate workshop suitability; deliver structured comparison sheet</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">Factory tour video; deep outsourcing‑chain audit; long‑term yield stability evaluation</td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><ul class="cell-list"><li>All Basic deliverables + deep RFQ clarification</li><li>Hidden‑cost breakdown</li><li>Basic qualification check</li><li>Preliminary risk notes</li></ul></td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><ul class="cell-list"><li>Clarify hidden costs</li><li>Evaluate workshop suitability</li><li>Deliver structured comparison sheet</li></ul></td>
               <td style="border:1px solid var(--border-color); padding:0.8rem; text-align:center;">
                 <a href={pathStandard} style="color:var(--brown-dark); text-decoration:underline;">View Sample ⓘ</a>
               </td>
@@ -68,9 +65,8 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
             <tr>
               <td style="border:1px solid var(--border-color); padding:0.8rem;"><strong>Premium</strong></td>
               <td style="border:1px solid var(--border-color); padding:0.8rem;">$220</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">All Standard deliverables + factory photos & tour clips; outsourcing‑dependency assessment; mold‑practice notes; yield / seasonal‑risk analysis; full due‑diligence report</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">Neutral deep due‑diligence; cross‑evaluate mass‑production risks; deliver inputs for long‑term cooperation decisions</td>
-              <td style="border:1px solid var(--border-color); padding:0.8rem;">Sample development, mold opening, production guarantee, quality / lead‑time commitments (excluded across all tiers)</td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><ul class="cell-list"><li>All Standard deliverables + factory photos & tour clips</li><li>Outsourcing‑dependency assessment</li><li>Mold‑practice notes</li><li>Yield / seasonal‑risk analysis</li><li>Full due‑diligence report</li></ul></td>
+              <td style="border:1px solid var(--border-color); padding:0.8rem;"><ul class="cell-list"><li>Neutral deep due‑diligence</li><li>Cross‑evaluate mass‑production risks</li><li>Deliver inputs for long‑term cooperation decisions</li></ul></td>
               <td style="border:1px solid var(--border-color); padding:0.8rem; text-align:center;">
                 <a href={pathPremium} style="color:var(--brown-dark); text-decoration:underline;">View Sample ⓘ</a>
               </td>
@@ -80,7 +76,6 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
         </div>
       </div>
       <p class="swipe-hint">Swipe sideways to see all columns →</p>
-      <p style="font-size:0.85rem; color:#444; margin-top:0.6rem;">Note: For Basic / Standard, “Not Included” lists items available only in higher tiers. For Premium, “Not Included” lists items never covered by this service.</p>
     </section>
 
     <div style="background:#f8f5f0; padding:1.2rem; margin-bottom:2.5rem;">
@@ -149,6 +144,21 @@ const pathPremium = import.meta.env.BASE_URL + "supplier-dev-premium";
   font-size: 1.05rem;
   color: var(--brown-dark);
   white-space: nowrap;
+}
+
+/* 单元格内的项目符号列表 */
+.cell-list {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.cell-list li {
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
+}
+
+.cell-list li:last-child {
+  margin-bottom: 0;
 }
 
 /* 滑动提示：默认隐藏，只在手机上显示 */
