@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 export default defineConfig({
-  site: "https://dehua-final.pages.dev", // Cloudflare Pages 生产域名，换成自有域名时同步修改此处
+  site: "https://dehuasourcing.com", // 生产域名；Pages 预览域 dehua-final.pages.dev 仍可用
   output: 'static'
 });
 
