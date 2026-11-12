@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+const title = "Test Basic";
+---
+<BaseLayout title={title}>
+<Fragment slot="header"><Header /></Fragment>
+<div class="container" style="padding:2rem;">
+  <h1>Test Page</h1>
+  <p>测试返回链接：</p>
+  <a href="/supplier-development">← Back to plan comparison</a>
+</div>
+<Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

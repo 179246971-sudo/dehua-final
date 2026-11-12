@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+const title = "Basic Plan Sample | Supplier Development";
+---
+<BaseLayout title={title}>
+  <Fragment slot="header"><Header /></Fragment>
+<div class="container" style="padding:2rem 0;">
+  <div style="background:var(--white); padding:2rem;">
+    <h1 style="font-size:1.6rem; color:var(--brown-dark); margin:0 0 1rem 0;">Basic｜Supplier Profile Sample</h1>
+    <p style="font-size:0.85rem; color:#666;"><em>Sample only for format reference. Real supplier data depends on your project.</em></p>
+    <div style="overflow-x:auto; margin:1.2rem 0;">
+<table style="width:100%; border-collapse:collapse; min-width:520px;">
+<tbody>
+<tr><td colspan="2" style="background:#f8f5f0; font-weight:bold; padding:0.7rem; border:1px solid #ccc;">1. Basic Information</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc; width:38%;">Workshop Name</td><td style="padding:0.6rem; border:1px solid #ccc;">Dehua XX Ceramic Workshop</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Location</td><td style="padding:0.6rem; border:1px solid #ccc;">Dehua, Quanzhou, Fujian</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Contact Person</td><td style="padding:0.6rem; border:1px solid #ccc;">Mr. Lin</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Contact</td><td style="padding:0.6rem; border:1px solid #ccc;">138****8888</td></tr>
+
+<tr><td colspan="2" style="background:#f8f5f0; font-weight:bold; padding:0.7rem; border:1px solid #ccc;">2. Workshop Type & Capacity</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Workshop Type</td><td style="padding:0.6rem; border:1px solid #ccc;">Small‑batch mass‑production workshop</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Main Product Range</td><td style="padding:0.6rem; border:1px solid #ccc;">Daily‑use white‑ceramic cups & tableware</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Typical MOQ</td><td style="padding:0.6rem; border:1px solid #ccc;">500 pcs</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Sample Lead‑time</td><td style="padding:0.6rem; border:1px solid #ccc;">7‑10 working days</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Mass‑order Lead‑time</td><td style="padding:0.6rem; border:1px solid #ccc;">25‑35 days</td></tr>
+<tr><td style="padding:0.6rem; border:1px solid #ccc;">Typical Payment Terms</td><td style="padding:0.6rem; border:1px solid #ccc;">30% deposit before production</td></tr>
+</tbody>
+</table>
+    </div>
+    <p style="font-size:0.85rem;"><strong>Note:</strong> Basic tier does not include process breakdown, cost breakdown or risk‑assessment sections.</p>
+    <div style="margin-top:2rem;">
+      <a href="/supplier-development" style="color:var(--brown-dark); text-decoration:underline;">← Back to plan comparison</a>
+    </div>
+  </div>
+</div>
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

@@ -1,0 +1,61 @@
+:root {
+  --bg-warm: #f9f6f1;
+  --brown-dark: #5c4838;
+  --brown-light: #b8a898;
+  --white: #ffffff;
+  --border-color: #d6cdc4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-warm);
+  color: var(--brown-dark);
+  line-height: 1.65;
+}
+
+/* 核心容器：统一宽度、居中、左右留白 */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* 网格通用类 */
+.grid-three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 2.5rem;
+}
+
+/* 新增：4栏网格，给Our Services板块用 */
+.grid-four {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* 响应式断点 */
+@media (max-width: 768px) {
+  .grid-three {
+    grid-template-columns: 1fr;
+  }
+  .grid-two {
+    grid-template-columns: 1fr;
+  }
+  /* 新增：手机端4栏自动单列 */
+  .grid-four {
+    grid-template-columns: 1fr;
+  }
+}
