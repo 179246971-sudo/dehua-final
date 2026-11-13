@@ -4,14 +4,19 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 const title = "Sourcing Guidebook | Dehua White Porcelain Sourcing Handbook";
-const description = "A 56-page sourcing handbook for overseas buyers of custom Dehua white porcelain: mould ownership, quotation breakdown, defect grading, production checkpoints and 16 ready-to-use forms.";
+const description = "A 74-page sourcing handbook for overseas buyers of custom Dehua white porcelain: mould ownership, quotation breakdown, defect grading, production checkpoints and 16 ready-to-use forms.";
 
-// 结账链接就位后只改这一行：填上 PayPal 发票 / Fiverr GIG / 独立站结账地址，全页按钮自动切换
+// 结账链接就位后只改这一行：填上独立站结账地址 / 数字商品平台付款页，全页按钮自动切换
+// 注意：不要填 paypal.me 链接。PayPal.Me 在中国区个人账户上是 P2P 转账（Friends & Family），
+// 页面只有「Send」，没有「Paying for an item or service」，用它收货款属违规用途。
 const CHECKOUT_URL = "";
 
-// 暂未接通结账时，按钮统一指向站内询盘表单
-const ctaHref = CHECKOUT_URL || "/#faq";
-const ctaLabel = CHECKOUT_URL ? "Get the handbook — $39.99" : "Request the launch link";
+// 备用路径：若 CHECKOUT_URL 被清空，按钮退回页内下单区，用邮件联系
+const ORDER_EMAIL = "hello@dehuasourcing.com";
+const ORDER_MAILTO = "mailto:" + ORDER_EMAIL + "?subject=Handbook%20order%20-%20%2439.99&body=I%20would%20like%20to%20order%20the%20Dehua%20White%20Porcelain%20Sourcing%20Handbook%20(English%20edition%2C%20PDF).%0A%0ASend%20the%20PDF%20to%3A%20%0AName%2Fcompany%3A%20%0ACountry%3A%20%0A";
+const ctaHref = CHECKOUT_URL || "#get";
+const buyHref = CHECKOUT_URL || ORDER_MAILTO;
+const ctaLabel = CHECKOUT_URL ? "Get the handbook — $39.99" : "How to order — $39.99";
 
 const coverImage = "/images/guidebook/finished-pieces.jpg";
 const photos = [
@@ -127,7 +132,7 @@ const forms = [
 const faqs = [
   {
     q: "What exactly do I receive?",
-    a: "A PDF handbook in English, laid out for A4, plus the sixteen forms as separate files so you can print them or fill them in and send them to a workshop. Sent by download link after payment; updates free for the first twelve months.",
+    a: "A PDF handbook in English, 74 pages, set in a 6 × 9 inch page — the size ebooks are usually read at, not an A4 office printout. It carries the sixteen forms as printable pages at the back, and you also get the blank forms as separate files so you can print them or fill them in and send them to a workshop. Delivered by email within 24 hours of payment; updates free for the first twelve months.",
   },
   {
     q: "Does it include factory contacts or a supplier list?",
@@ -135,7 +140,7 @@ const faqs = [
   },
   {
     q: "Can I get a refund?",
-    a: "No. Once the download link is sent, the sale is final and no refund or exchange is accepted. This is why the two sample chapters are published in full on this page: read them before paying. If the file will not open or the download fails, we repair or replace the file within one working day — that is a delivery problem, not a refund.",
+    a: "The handbook is a digital good, sold as final. Once the PDF has been emailed to you the sale is complete, and no refund or exchange is offered — which is why both sample sections are published in full on this page before you pay. If the file will not open, or the email never arrives, we resend or repair it within one working day. That is a delivery failure and it is covered, not a change of mind.",
   },
   {
     q: "How is this different from hiring you?",
@@ -150,9 +155,9 @@ const faqs = [
 
   <div class="container page-guidebook" style="padding:2rem 1rem;">
 
-    <!-- Pre-launch notice: remove once checkout is live -->
+    <!-- Availability notice: orders are handled by email until CHECKOUT_URL is filled in -->
     <p class="prelaunch">
-      <span class="dot"></span><strong>Pre-launch.</strong> English edition in final proofing. Request the launch link and you get it before the public listing.
+      <span class="dot"></span><strong>Available now.</strong> English edition, 74 pages. Order by email, payment by card, PDF within 24 hours.
     </p>
 
     <!-- HERO -->
@@ -165,7 +170,7 @@ const faqs = [
           written on the ground, in plain English, with the forms already made.
         </p>
         <div class="chips">
-          <span class="chip">56 pages</span>
+          <span class="chip">74 pages</span>
           <span class="chip">7 parts</span>
           <span class="chip">16 forms</span>
           <span class="chip">English edition</span>
@@ -174,7 +179,7 @@ const faqs = [
           <a class="btn-primary" href={ctaHref}>{ctaLabel}</a>
           <a class="btn-ghost" href="#sample">Read a free section</a>
         </div>
-        <p class="price-line"><strong>$39.99</strong> one-time · PDF, A4 print-ready · all sales final</p>
+        <p class="price-line"><strong>$39.99</strong> one-time · PDF, 6 × 9 in · all sales final</p>
       </div>
 
       <div class="hero-visual">
@@ -370,15 +375,19 @@ const faqs = [
       </div>
     </section>
 
-    <!-- FINAL CTA -->
+    <!-- ORDER -->
     <section class="final-cta" id="get">
-      <h2>The rules, in one file</h2>
-      <p class="final-sub">56 pages, 16 forms, two free chapters above. One payment, no subscription.</p>
+      <h2>How to order</h2>
+      <p class="final-sub">74 pages, 16 printable forms, two free sections above. One payment, no subscription.</p>
       <p class="final-price">$39.99</p>
-      <a class="btn-light" href={ctaHref}>{ctaLabel}</a>
+      <ol class="order-steps">
+        <li>Write to <a class="order-mail" href={ORDER_MAILTO}>hello@dehuasourcing.com</a> from the address you want the file sent to. Say you want the handbook and the link is filled in for you.</li>
+        <li>Within a few hours — same day at the latest — you receive a PayPal request for $39.99 marked as a payment for goods. Pay with a card; you do not need a PayPal account.</li>
+        <li>The PDF is emailed to you within 24 hours of payment. If it will not open, reply to the same email and it is resent the same working day.</li>
+      </ol>
+      <a class="btn-light" href={buyHref}>{ctaLabel}</a>
       <p class="final-note">
-        Digital download. All sales are final — read the two free chapters before buying.
-        By paying you confirm immediate access to the file.
+        Digital delivery, no physical shipment. All sales final once the file is sent — read the two free sections before ordering.
       </p>
     </section>
 
@@ -386,7 +395,7 @@ const faqs = [
 
   <!-- Mobile sticky buy bar -->
   <div class="sticky-buy">
-    <div class="sticky-price"><strong>$39.99</strong><span>56 pages · 16 forms</span></div>
+    <div class="sticky-price"><strong>$39.99</strong><span>74 pages · 16 forms</span></div>
     <a class="btn-primary sticky-btn" href={ctaHref}>{ctaLabel}</a>
   </div>
 
@@ -965,6 +974,46 @@ const faqs = [
     margin: 0 0 1rem 0;
     font-size: 1.8rem;
     font-weight: 600;
+  }
+
+  .order-steps {
+    max-width: 52ch;
+    margin: 0 auto 1.4rem;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    text-align: left;
+  }
+
+  .order-steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: #efe4d6;
+  }
+
+  .order-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    border: 1px solid #cdbba6;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    line-height: 1.35rem;
+    text-align: center;
+    color: #f7f1e9;
+  }
+
+  .order-mail {
+    color: #f7f1e9;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .btn-light {
